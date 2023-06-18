@@ -1,0 +1,80 @@
+for i,v in pairs(game.CoreGui:GetChildren()) do
+if v.Name == "ScreenGui" then
+v:Destroy()
+end
+end
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/sannin9000/Ui-Libraries/main/uwuware", true))()
+local plr = game.Players.LocalPlayer
+local Window = Library:CreateWindow"Script"
+local w2 = Library:CreateWindow"Project Slayer"
+local w1 = Library:CreateWindow"sex"
+Window:AddFolder"Script"
+Window:AddLabel({text = "Usefull"})
+Window:AddButton({text = "Inf", flag = "button", callback = function()
+loadstring(game:HttpGet(('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'),true))()
+end})
+Window:AddButton({text = "ANTI AFK", flag = "button", callback = function() 
+local Module = require(game:GetService("Players").LocalPlayer.PlayerScripts.ClientMain.Replications.Workers.WalkDummy)
+setconstant(Module,34,function()
+game:GetService("RunService").Heartbeat:Wait()
+end)
+end})
+Window:AddButton({text = "Ins Interact", flag = "button", callback = function()
+game:GetService("ProximityPromptService").PromptButtonHoldBegan:Connect(function(prompt)
+  fireproximityprompt(prompt)
+end)
+end})
+Window:AddFolder"Etc"
+Window:AddLabel({text = "etc.."})
+Window:AddButton({text = "AU:R BADGE", flag = "button", callback = function()
+local player = game.Players.LocalPlayer.Character.HumanoidRootPart
+
+for i, v in pairs(game:GetService("Workspace").Ignore.MainParts.Badge:GetDescendants()) do
+ if v.Name == "TouchInterest" and v.Parent then
+     firetouchinterest(player, v.Parent, 0)
+ end
+end
+end})
+w2:AddButton({text = "BDA SPIN", flag = "button", callback = function()
+local args = {
+    [1] = "check_can_spin_demon_art"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("To_Server"):WaitForChild("Handle_Initiate_S_"):InvokeServer(unpack(args))
+end})
+Window:AddToggle({text = "Bizarre Item Farm", flag = "toggle", state = false, callback = function(a)
+aa = a
+while aa do task.wait()
+for i,v in pairs(game.Workspace:GetDescendants()) do
+if v:IsA"TouchTransmitter" and v.Parent.Parent:IsA"Tool" then
+firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.Parent, 0)
+firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.Parent, 1)
+end
+end
+end
+end})
+w2:AddToggle({text = "Akaza Invincible", flag = "toggle", state = false, callback = function(a)
+_G.Invicinbility = a
+while _G.Invicinbility do
+local A_1 = "skil_ting_asd"
+local A_2 = game:GetService("Players").LocalPlayer
+local A_3 = "akaza_bda_compass_needle"
+local A_4 = 1
+local Event = game:GetService("ReplicatedStorage").Remotes["To_Server"]["Handle_Initiate_S"]
+Event:FireServer(A_1, A_2, A_3, A_4)
+task.wait()
+end
+end})
+w2:AddButton({text = "Daily Spin", flag = "button", callback = function()
+game:GetService("ReplicatedStorage"):WaitForChild("spins_thing_remote"):InvokeServer()
+end})
+w2:AddButton({text = "Oni Hub V1", flag = "button", callback = function()
+loadstring(game:HttpGet('https://raw.githubusercontent.com/Wangpap/vmug-usercon/master/PS%20ONI%20HUB'))()
+end})
+w2:AddButton({text = "Lily Farm", flag = "button", callback = function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Wangpap/vmug-usercon/master/Project%20Slayers%20Lily%20Farm"))()
+end})
+w1:AddBind({text = "Toggle UI", key = "RightControl", callback = function()
+Library:Close()
+end})
+Library:Init()
