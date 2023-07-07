@@ -24,8 +24,8 @@ end
 
 --// UI Library \\--
 local Library = loadstring(game:HttpGetAsync('https://raw.githubusercontent.com/Wangpap/vmug-usercon/master/uwuware'))()
-local Window = Library:CreateWindow("D0G_KlNG")
-local w2 = Library:CreateWindow("Fart")
+local Window = Library:CreateWindow("1xfb")
+local w2 = Library:CreateWindow("None")
 Enabled_1 = Window:AddColor({
     text = 'Status:',
     flag = "Ezpi_1",
