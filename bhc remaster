@@ -7,6 +7,7 @@ local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/sanni
 local plr = game.Players.LocalPlayer
 local Window = Library:CreateWindow"Script"
 local w2 = Library:CreateWindow"Project Slayer"
+local w3 = Library:CreateWindow"AUT"
 local w1 = Library:CreateWindow"sex"
 Window:AddFolder"Script"
 Window:AddLabel({text = "Usefull"})
@@ -76,6 +77,12 @@ loadstring(game:HttpGet('https://raw.githubusercontent.com/Wangpap/vmug-usercon/
 end})
 w2:AddButton({text = "Lily Farm", flag = "button", callback = function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Wangpap/vmug-usercon/master/Project%20Slayers%20Lily%20Farm"))()
+end})
+w3:AddButton({text = "Script 1", flag = "button", callback = function()
+loadstring(game:HttpGet(('https://raw.githubusercontent.com/Wangpap/vmug-usercon/master/aut1'),true))()
+end})
+w3:AddButton({text = "Script 2", flag = "buttong", callback = function()
+loadstring(game:HttpGet(('https://raw.githubusercontent.com/Wangpap/vmug-usercon/master/aut2'),true))()
 end})
 w1:AddBind({text = "Toggle UI", key = "RightControl", callback = function()
 Library:Close()
