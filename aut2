@@ -1,0 +1,296 @@
+local Material = loadstring(game:HttpGet("https://raw.githubusercontent.com/Kinlei/MaterialLua/master/Module.lua"))()
+
+local X = Material.Load({
+    Title = "Keybrew Hub https://discord.gg/eFzmVdNj6h",
+    Style = 2,
+    SizeX = 300,
+    SizeY = 350,
+    Theme = "Light",
+    ColorOverrides = {
+        MainFrame = Color3.fromRGB(0,0,0),
+        Toggle = Color3.fromRGB(124,37,255),
+        ToggleAccent = Color3.fromRGB(255,255,255), 
+        Dropdown = Color3.fromRGB(124,37,255),
+		DropdownAccent = Color3.fromRGB(255,255,255),
+        Slider = Color3.fromRGB(124,37,255),
+		SliderAccent = Color3.fromRGB(255,255,255),
+        NavBarAccent = Color3.fromRGB(0,0,0),
+        Content = Color3.fromRGB(0,0,0),
+    }
+})
+
+local Y = X.New({
+	Title = "Main"
+})
+local E = X.New({
+	Title = "Extra"
+})
+local NPCs = {}
+
+    for i, v in pairs(game:GetService("Workspace").Living:GetChildren()) do
+        if v:IsA "Model"  then
+            if not table.find(NPCs, tostring(v)) then
+            table.insert(NPCs, tostring(v))
+        end
+    end
+end
+local function getSAND()
+    local dist, thing = math.huge
+    for i, v in next, game:GetService("Workspace").ItemSpawns["Sand Debris"]:GetDescendants() do
+        if v:IsA("Part") and v.Parent.Name == "SpawnLocation" then
+            local mag =
+                (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.Position).magnitude
+            if mag < dist then
+                dist = mag
+                thing = v
+            end
+        end
+    end
+    return thing
+end
+local function getMETEOR()
+    local dist, thing = math.huge
+    for i, v in next, game:GetService("Workspace").ItemSpawns["Meteors"]:GetDescendants() do
+        if v:IsA("MeshPart") and v.Parent.Name == "SpawnLocation" then
+            local mag =
+                (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.Position).magnitude
+            if mag < dist then
+                dist = mag
+                thing = v
+            end
+        end
+    end
+    return thing
+end
+local function getSTAND()
+    local dist, thing = math.huge
+    for i, v in next, game:GetService("Workspace").ItemSpawns["StandardItems"]:GetDescendants() do
+        if v:IsA("MeshPart") or v:IsA("Part") and v.Parent.Name == "SpawnLocation" then
+            local mag =
+                (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.Position).magnitude
+            if mag < dist then
+                dist = mag
+                thing = v
+            end
+        end
+    end
+    return thing
+end
+
+local function getEVENT()
+    local dist, thing = math.huge
+    for i, v in next, game:GetService("Workspace").ItemSpawns["EventItems"]:GetDescendants() do
+        if v:IsA("MeshPart") or v:IsA("Part") and v.Parent.Name == "SpawnLocation" then
+            local mag =
+                (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.Position).magnitude
+            if mag < dist then
+                dist = mag
+                thing = v
+            end
+        end
+    end
+    return thing
+end
+local function getCHEST()
+    local dist, thing = math.huge
+    for i, v in next, game:GetService("Workspace").ItemSpawns["Chests"]:GetDescendants() do
+        if v:IsA("Model") and v.Parent.Name == "SpawnLocation" then
+            local mag =
+                (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.RootPart.Position).magnitude
+            if mag < dist then
+                dist = mag
+                thing = v
+            end
+        end
+    end
+    return thing
+end
+Y.Toggle({
+	Text = "Auto Punch",
+	Callback = function(Value)
+        bb = Value
+        while bb do task.wait()
+            game:GetService("ReplicatedStorage").Remotes.InputFunc:InvokeServer(("LMB"))    
+        end
+    end,
+	Enabled = false
+})
+local drop = Y.Dropdown({
+	Text = "Select Humanoid",
+	Callback = function(Value)
+		getgenv().npcs = Value
+	end,
+	Options = NPCs
+
+})
+local function getNPC()
+    local dist, thing = math.huge
+    for i, v in next, game:GetService("Workspace").Living:GetChildren() do
+        if v:IsA("Model") and v.Name == npcs then
+            local mag =
+                (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.HumanoidRootPart.Position).magnitude
+            if mag < dist then
+                dist = mag
+                thing = v
+            end
+        end
+    end
+    return thing
+end
+Y.Toggle({
+	Text = "Autofarm Humanoid",
+	Callback = function(Value)
+        b = Value
+        while b do task.wait()
+            pcall(function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =   CFrame.new(getNPC().HumanoidRootPart.Position + Vector3.new(0, 7, 0), getNPC().HumanoidRootPart.Position)
+    end)
+        end
+    end,
+	Enabled = false
+})
+Y.Button(
+    {
+        Text = "Refresh Humanoids",
+        Callback = function()
+            table.clear(NPCs)
+            for i, v in pairs(game:GetService("Workspace").Living:GetChildren()) do
+                if v:IsA "Model"  then
+                    if not table.find(NPCs, tostring(v)) then
+                    table.insert(NPCs, tostring(v))
+                        drop:SetOptions(NPCs)
+                    end
+                end
+            end
+        end
+    }
+)
+
+    Y.Toggle({
+	Text = "Autofarm Meteors",
+	Callback = function(Value)
+        c = Value
+        while c do task.wait()
+            pcall(function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = getMETEOR().CFrame
+
+        fireproximityprompt(getMETEOR().ProximityAttachment.Interaction)	
+            end)
+        end
+    end,
+	Enabled = false
+})
+Y.Toggle({
+	Text = "Autofarm Sand Debris",
+	Callback = function(Value)
+        aaaa = Value
+        while aaaa do task.wait()
+            pcall(function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = getSAND().CFrame
+
+        fireproximityprompt(getSAND().ProximityAttachment.Interaction)	
+            end)
+        end
+    end,
+	Enabled = false
+})
+Y.Toggle({
+	Text = "Autofarm Chests",
+	Callback = function(Value)
+        aaa = Value
+        while aaa do task.wait()
+            pcall(function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = getCHEST().RootPart.CFrame
+
+        fireproximityprompt(getCHEST().RootPart.ProximityAttachment.Interaction)	
+            end)
+        end
+    end,
+	Enabled = false
+})
+Y.Toggle({
+	Text = "Autofarm StandardItems",
+	Callback = function(Value)
+        aa = Value
+        while aa do task.wait()
+            pcall(function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = getSTAND().CFrame
+
+        fireproximityprompt(getSTAND().ProximityAttachment.Interaction)	
+            end)
+        end
+    end,
+	Enabled = false
+})
+Y.Toggle({
+	Text = "Autofarm EventItems",
+	Callback = function(Value)
+        a = Value
+        while a do task.wait()
+            pcall(function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = getEVENT().CFrame
+
+        fireproximityprompt(getEVENT().ProximityAttachment.Interaction)	
+            end)
+        end
+    end,
+	Enabled = false
+})
+local NPC = {}
+
+    for i, v in pairs(game:GetService("Workspace").NPCS:GetChildren()) do
+        if v:IsA "Model"  then
+            table.insert(NPC, tostring(v))
+    end
+end
+    E.Dropdown({
+	Text = "NPCs",
+	Callback = function(Value)
+		getgenv().tp = Value
+	end,
+	Options = NPC
+
+})
+    E.Button({
+	Text = "Teleport",
+	Callback = function()
+        if tp == "Dawn Sword" then
+		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").NPCS[tp].Handle.CFrame
+        end
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").NPCS[tp].HumanoidRootPart.CFrame
+	end,
+
+})
+E.Button({
+	Text = "AstralChest",
+	Callback = function()
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").ItemSpawns.AstralChests.Active["Astral Chest"].HumanoidRootPart.CFrame
+	end,
+
+})
+local function getTHUG()
+    local dist, thing = math.huge
+    for i, v in next, game:GetService("Workspace").Living:GetChildren() do
+        if v.Name == "Thug2" or v.Name == "Thug3" or v.Name == "Thug4" then
+            local mag =
+                (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.HumanoidRootPart.Position).magnitude
+            if mag < dist then
+                dist = mag
+                thing = v
+            end
+        end
+    end
+    return thing
+end
+E.Toggle({
+	Text = "Autofarm Thugs",
+	Callback = function(Value)
+        t = Value
+        while t do task.wait()
+            pcall(function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =   CFrame.new(getTHUG().HumanoidRootPart.Position + Vector3.new(0, 7, 0), getTHUG().HumanoidRootPart.Position)
+    end)
+        end
+    end,
+	Enabled = false
+})
