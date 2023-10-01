@@ -1,0 +1,25 @@
+	if messagebox then
+		local a, b = pcall(function()
+			appendfile('HAS_BEEN_WARNED.txt', 'This file only checks if you have already been warned by the dataloss on our script. :)')
+		end)
+		if not a then
+			local a = messagebox("By clicking the button below (YES), any future progress that you will do during the game will be lost after rejoining, including trades. (this is a one-time warning)", "WARNING", 1841)
+			if a == 1 then
+				messagebox("Any progress you do by now will be loss after rejoining. (you wont be warned again.)", "WARNING", 1840)
+				game:GetService("ReplicatedStorage").UpdateKeybind:FireServer("Three", "Enum.KeyCode.\255")
+				writefile('HAS_BEEN_WARNED.txt', 'This file only checks if you have already been warned by the dataloss on our script. :)')
+			else
+				messagebox("Your progress will still be saved, you cancelled the operation!", "Information", 1856)
+			end
+		else
+			messagebox("Any progress you do by now will be loss after rejoining.", "WARNING", 1840)
+			game:GetService("ReplicatedStorage").UpdateKeybind:FireServer("Three", "Enum.KeyCode.\255")
+		end
+	else
+		game.StarterGui:SetCore("SendNotification", {
+			Title = "WARNING";
+			Text = 'Any progress you do by now will be loss after rejoining.';
+			Duration = 10
+		})
+	end
+end)
